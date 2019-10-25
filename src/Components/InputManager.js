@@ -132,7 +132,10 @@ async handleSubmit() {
                 <div className="cheque__value-text">{this.state.valueInString}</div>
                 <div>{`$ ${this.state.amount}`}</div>
               </div>
-              <div className="cheque__bottom-numbers">1234:-5678:--..9010::123..-123-522-42</div>
+              <div className="cheque__barcode-and-signature">
+                <div className="cheque__bottom-numbers">1234:-5678:--..9010::123..-123-522-42</div>
+                <div className="cheque__signature">Keshan Peiris</div>
+              </div>
             </div>
           )}
         </>

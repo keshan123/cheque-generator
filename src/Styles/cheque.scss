@@ -9,6 +9,11 @@
     src: url('../fonts/micrenc.ttf');
 }
 
+@font-face {
+    font-family: 'signature';
+    src: url('../fonts/Photograph_Signature.ttf');
+}
+
 .cheque {
   display: flex;
   flex-direction: column;
@@ -41,11 +46,20 @@
   }
   &__bottom-numbers {
     font-family: 'micrenc';
-    align-self: start;
+    align-self: flex-end;
     font-size: 18px;
   }
   &__value-text {
     text-align: left;
     width: calc(100% - 100px);
+  }
+  &__barcode-and-signature {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  &__signature {
+    font-family: 'signature';
+    font-size: 30px;
   }
 }
