@@ -15,11 +15,13 @@ class Input extends React.Component {
     }
     if (this.props.inputType === 'text') {
         this.setState({ value: value})
-        this.props.provideValue('text', value)
+        this.props.provideValue(0, value)
+        this.props.checkForErrors()
     }
     if (this.props.inputType === 'date') {
         this.setState({ value: value})
-        this.props.provideValue('date', value)
+        this.props.provideValue(2, value)
+        this.props.checkForErrors()
     }
   }
 
@@ -28,10 +30,13 @@ class Input extends React.Component {
         this.setState({ value: 10000000000000, errorMessage: 'maximum amount $ 10000000000000'})
     } else if (value == 0) { // eslint-disable-line
       this.setState({ value: value, errorMessage: 'cannot have $ 0 value'})
-    } else {
+    } else if (value < 0) { // eslint-disable-line
+      this.setState({ value: 0, errorMessage: 'cannot have negative value'})
+    }else {
       this.setState({ value: value, errorMessage: ''})
     }
-    this.props.provideValue('number', value)
+    this.props.provideValue(1, value)
+    this.props.checkForErrors()
   }
   render() {
     return (
@@ -44,7 +49,7 @@ class Input extends React.Component {
           onChange={(event) => this.checkValue(event.target.value)}
           name={this.props.inputName}>
         </input>
-         {this.state.errorMessage && <div className="form-input__error-message">{this.state.errorMessage}</div>}
+         {(this.state.errorMessage || this.props.errorSubmitMessage) && <div className="form-input__error-message">{this.state.errorMessage || this.props.errorSubmitMessage}</div>}
       </>
     );
   }

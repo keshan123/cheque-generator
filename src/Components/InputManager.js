@@ -9,33 +9,56 @@ class InputManager extends React.Component {
       amount: '',
       date: '',
       errorFound: false,
-      errorIndexs: [],
+      textError: '',
+      numberError: '',
+      dateError: '',
     }
   }
 
   handleSubmit = () => {
-    console.log(this.state)
-    let errors = [];
-    Object.values(this.state).forEach((value, index) => {
-      if (!value && index < 3) {
-        errors.push(index)
-      } else {
-        console.log(index, value, 'not empty')
-      }
-    })
-    this.setState({ errorIndexs: errors})
+    this.checkForErrors();
   }
 
-  provideValue = (input, value) => {
-    console.log(input, value)
-    switch (input) {
-      case 'text':
+  checkForErrors = () => {
+    let errorsArray = [];
+    Object.values(this.state).forEach((value, index) => {
+      if (!value && index < 3) {
+        errorsArray.push(index)
+      }
+    })
+    this.clearErrors()
+    for (var i = 0; i < errorsArray.length; i++) {
+      switch (errorsArray[i]) {
+        case 0:
+          this.setState({ textError: 'Please enter a valid payee'})
+          break;
+        case 1:
+          this.setState({ numberError: 'Please enter a valid amount'})
+          break;
+        case 2:
+          this.setState({ dateError: 'Please enter a valid date'})
+          break;
+        default:
+      }
+    }
+
+    console.log(this.state)
+  }
+
+  clearErrors = () => {
+    this.setState({ dateError: '', numberError: '', textError: ''})
+  }
+
+  provideValue = (inputIndex, value) => {
+    console.log(inputIndex, value)
+    switch (inputIndex) {
+      case 0:
         this.setState({ payee: value})
         break;
-      case 'number':
+      case 1:
         this.setState({ amount: value})
         break;
-      case 'date':
+      case 2:
         this.setState({ date: value})
         break;
       default:
@@ -45,9 +68,30 @@ class InputManager extends React.Component {
   render() {
     return (
         <div className="details-container">
-          <Input provideValue={this.provideValue} title="Payee" inputType="text" inputName="payee" />
-          <Input provideValue={this.provideValue} title="Amount in $" inputType="number" inputName="amount" />
-          <Input provideValue={this.provideValue} title="Date" inputType="date" inputName="date" />
+          <Input
+            checkForErrors={this.checkForErrors}
+            errorSubmitMessage={this.state.textError}
+            provideValue={this.provideValue}
+            title="Payee"
+            inputType="text"
+            inputName="payee"
+          />
+          <Input
+            checkForErrors={this.checkForErrors}
+            errorSubmitMessage={this.state.numberError}
+            provideValue={this.provideValue}
+            title="Amount in $"
+            inputType="number"
+            inputName="amount"
+          />
+          <Input
+            checkForErrors={this.checkForErrors}
+            errorSubmitMessage={this.state.dateError}
+            provideValue={this.provideValue}
+            title="Date"
+            inputType="date"
+            inputName="date"
+          />
           <div onClick={this.handleSubmit}> Submit </div>
         </div>
     );
