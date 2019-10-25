@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from './Input';
+import FormErrors from './FormErrors';
 
 class InputManager extends React.Component {
   constructor(props) {
@@ -8,91 +8,108 @@ class InputManager extends React.Component {
       payee: '',
       amount: '',
       date: '',
-      errorFound: false,
-      textError: '',
-      numberError: '',
-      dateError: '',
+      formErrors: {payee: '', amount: '', date: ''},
+      payeeValid: false,
+      amountValid: false,
+      dateValid: false,
+      formValid: false,
     }
   }
 
-  handleSubmit = () => {
-    this.checkForErrors();
-  }
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    console.log(name, value)
+    this.setState({[name]: value}, () => { this.validateField(name, value) });
+}
 
-  checkForErrors = () => {
-    let errorsArray = [];
-    Object.values(this.state).forEach((value, index) => {
-      if (!value && index < 3) {
-        errorsArray.push(index)
-      }
-    })
-    this.clearErrors()
-    for (var i = 0; i < errorsArray.length; i++) {
-      switch (errorsArray[i]) {
-        case 0:
-          this.setState({ textError: 'Please enter a valid payee'})
-          break;
-        case 1:
-          this.setState({ numberError: 'Please enter a valid amount'})
-          break;
-        case 2:
-          this.setState({ dateError: 'Please enter a valid date'})
-          break;
-        default:
-      }
-    }
+handleSubmit = () => {
+  console.log(this.state)
+}
 
-    console.log(this.state)
-  }
+  validateField = (fieldName, value) => {
+    let fieldValidationErrors = this.state.formErrors;
+    let payeeValid = this.state.payeeValid;
+    let amountValid = this.state.amountValid;
+    let dateValid = this.state.dateValid
 
-  clearErrors = () => {
-    this.setState({ dateError: '', numberError: '', textError: ''})
-  }
-
-  provideValue = (inputIndex, value) => {
-    console.log(inputIndex, value)
-    switch (inputIndex) {
-      case 0:
-        this.setState({ payee: value})
+    switch(fieldName) {
+      case 'payee':
+        if (value === '') {
+          payeeValid = false
+          fieldValidationErrors.payee = payeeValid ? '' : ' cannot be empty';
+        } else {
+          payeeValid = true
+          fieldValidationErrors.payee = '';
+        }
         break;
-      case 1:
-        this.setState({ amount: value})
+      case 'amount':
+        if (value < 1) {
+          amountValid = false;
+          fieldValidationErrors.amount = amountValid ? '': ' must be greater than $ 0';
+        } else if (value > 10000000000000) {
+          amountValid = false;
+          this.setState({ amount: 10000000000000})
+          fieldValidationErrors.amount = amountValid ? '': ' must be less that $ 10000000000000';
+        } else {
+          amountValid = true;
+          fieldValidationErrors.amount = '';
+        }
         break;
-      case 2:
-        this.setState({ date: value})
+      case 'date':
+        if (!value) {
+          dateValid = false
+          fieldValidationErrors.date = dateValid ? '': ' invalid date';
+        } else {
+          dateValid = true
+          fieldValidationErrors.date = '';
+        }
         break;
       default:
+        break;
     }
+    this.setState({formErrors: fieldValidationErrors,
+                    payeeValid: payeeValid,
+                    amountValid: amountValid,
+                    dateValid: dateValid,
+                  }, this.validateForm);
+  }
+
+  validateForm = () => {
+    this.setState({formValid: this.state.payeeValid && this.state.amountValid && this.state.dateValid});
   }
 
   render() {
     return (
         <div className="details-container">
-          <Input
-            checkForErrors={this.checkForErrors}
-            errorSubmitMessage={this.state.textError}
-            provideValue={this.provideValue}
-            title="Payee"
-            inputType="text"
-            inputName="payee"
-          />
-          <Input
-            checkForErrors={this.checkForErrors}
-            errorSubmitMessage={this.state.numberError}
-            provideValue={this.provideValue}
-            title="Amount in $"
-            inputType="number"
-            inputName="amount"
-          />
-          <Input
-            checkForErrors={this.checkForErrors}
-            errorSubmitMessage={this.state.dateError}
-            provideValue={this.provideValue}
-            title="Date"
-            inputType="date"
-            inputName="date"
-          />
-          <div onClick={this.handleSubmit}> Submit </div>
+        <label className="form-input__label">Payee</label>
+        <input
+          className="form-input"
+          type="text"
+          value={this.state.payee}
+          onChange={(event) => this.handleUserInput(event)}
+          name="payee">
+        </input>
+        <label className="form-input__label">Amount in $</label>
+        <input
+          className="form-input"
+          type="number"
+          value={this.state.amount}
+          onChange={(event) => this.handleUserInput(event)}
+          name="amount">
+        </input>
+        <label className="form-input__label">Date</label>
+        <input
+          className="form-input"
+          type="date"
+          value={this.state.date}
+          onChange={(event) => this.handleUserInput(event)}
+          name="date">
+        </input>
+        <div>
+         <FormErrors formErrors={this.state.formErrors} />
+        </div>
+          <button type="submit" disabled={!this.state.formValid} onClick={this.handleSubmit}> Submit </button>
         </div>
     );
   }
