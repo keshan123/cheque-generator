@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './Styles/index.scss';
 import './Styles/App.scss';
 import './Styles/Input.scss';
+import './Styles/cheque.scss';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
 

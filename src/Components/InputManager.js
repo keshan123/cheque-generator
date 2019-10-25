@@ -14,7 +14,7 @@ class InputManager extends React.Component {
       dateValid: false,
       formValid: false,
       error: '',
-      isLoaded: '',
+      isLoaded: false,
       valueInString: '',
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,8 +27,8 @@ class InputManager extends React.Component {
 }
 
 async handleSubmit() {
-    let response = await fetch(`https://te5299oebg.execute-api.us-west-2.amazonaws.com/prod/${this.state.amount}`);
-    console.log(response);
+    await fetch(`https://te5299oebg.execute-api.us-west-2.amazonaws.com/prod/${this.state.amount}`)
+     .then(response => response.text()).then((response) => this.setState({ isLoaded: true, valueInString: response }))
 }
 
 
@@ -92,36 +92,49 @@ async handleSubmit() {
 
   render() {
     return (
-        <div className="details-container">
-          <label className="form-input__label">Payee</label>
-          <input
-            className="form-input"
-            type="text"
-            value={this.state.payee}
-            onChange={(event) => this.handleUserInput(event)}
-            name="payee">
-          </input>
-          <label className="form-input__label">Amount in $</label>
-          <input
-            className="form-input"
-            type="number"
-            value={this.state.amount}
-            onChange={(event) => this.handleUserInput(event)}
-            name="amount">
-          </input>
-          <label className="form-input__label">Date</label>
-          <input
-            className="form-input"
-            type="date"
-            value={this.state.date}
-            onChange={(event) => this.handleUserInput(event)}
-            name="date">
-          </input>
-          <div>
-           <FormErrors formErrors={this.state.formErrors} />
-          </div>
-            <button type="submit" disabled={!this.state.formValid} onClick={this.handleSubmit}> Submit </button>
-        </div>
+        <>
+          {!this.state.isLoaded ? (<div className="details-container">
+            <label className="form-input__label">Payee</label>
+            <input
+              className="form-input"
+              type="text"
+              value={this.state.payee}
+              onChange={(event) => this.handleUserInput(event)}
+              name="payee">
+            </input>
+            <label className="form-input__label">Amount in $</label>
+            <input
+              className="form-input"
+              type="number"
+              value={this.state.amount}
+              onChange={(event) => this.handleUserInput(event)}
+              name="amount">
+            </input>
+            <label className="form-input__label">Date</label>
+            <input
+              className="form-input"
+              type="date"
+              value={this.state.date}
+              onChange={(event) => this.handleUserInput(event)}
+              name="date">
+            </input>
+            <div>
+             <FormErrors formErrors={this.state.formErrors} />
+            </div>
+              <button type="submit" disabled={!this.state.formValid} onClick={this.handleSubmit}> Submit </button>
+          </div>) : (
+            <div className="cheque">
+              <div className="cheque__payee-and-date-container">
+                <div>{this.state.payee}</div>
+                <div>DATE: {this.state.date}</div>
+              </div>
+              <div className="cheque__text-and-amount-container">
+                <div>{this.state.valueInString}</div>
+                <div>$ {this.state.amount}</div>
+              </div>
+            </div>
+          )}
+        </>
     );
   }
 }
