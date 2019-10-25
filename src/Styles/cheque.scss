@@ -4,15 +4,22 @@
   }
 }
 
+@font-face {
+    font-family: 'micrenc';
+    src: url('../fonts/micrenc.ttf');
+}
+
 .cheque {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  border: 1px solid black;
+  align-items: flex-start;
+  justify-content: space-between;
+  border: 1px solid #FDFFFC;
+  background-color: #FDFFFC;
   width: 500px;
   height: 200px;
   padding: 20px;
+  color: #011627;
   @include for-size(phone-only) {
     width: calc(100vw - 50px);
     height: 200px;
@@ -21,16 +28,24 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-top: 30px;
-    font-size: 12px;
+    font-size: 16px;
     text-transform: capitalize;
   }
   &__text-and-amount-container {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-top: 30px;
-    font-size: 12px;
+    font-size: 16px;
     text-transform: capitalize;
+    align-items: center;
+  }
+  &__bottom-numbers {
+    font-family: 'micrenc';
+    align-self: start;
+    font-size: 18px;
+  }
+  &__value-text {
+    text-align: left;
+    width: calc(100% - 100px);
   }
 }

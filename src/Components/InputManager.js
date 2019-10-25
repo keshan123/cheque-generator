@@ -129,9 +129,10 @@ async handleSubmit() {
                 <div>DATE: {this.state.date}</div>
               </div>
               <div className="cheque__text-and-amount-container">
-                <div>{this.state.valueInString}</div>
-                <div>$ {this.state.amount}</div>
+                <div className="cheque__value-text">{this.state.valueInString}</div>
+                <div>{`$ ${this.state.amount}`}</div>
               </div>
+              <div className="cheque__bottom-numbers">1234:-5678:--..9010::123..-123-522-42</div>
             </div>
           )}
         </>
