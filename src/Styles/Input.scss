@@ -1,3 +1,9 @@
+@mixin for-size($size) {
+  @if $size == phone-only {
+    @media (max-width: 599px) { @content; }
+  }
+}
+
 .form-input {
   font-size: 16px;
   width: 300px;
@@ -5,14 +11,46 @@
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
-  height: 50px;
+  min-height: 50px;
+  @include for-size(phone-only) {
+    width: calc(100vw - 80px);
+  }
+
+  &.invalid {
+    border: 3px solid #E71D36;
+  }
+
+  &__submit-button {
+    margin-top: 30px;
+    @include for-size(phone-only) {
+      width: calc(100vw - 80px);
+    }
+  }
 
   &__error-message {
-    height: 20px;
-    width: 300px;
     padding: 0px 10px;
-    font-size: 14px;
-    color: #E71D36;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__individual {
+      width: 300px;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.5);
+      color: #E71D36;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0 15px 0;
+      border-radius: 5px;
+      padding: 10px;
+
+      @include for-size(phone-only) {
+        width: calc(100vw - 80px);
+      }
+    }
   }
 
   &__label {
@@ -21,5 +59,63 @@
     text-align: left;
     margin-bottom: 5px;
     color: #FDFFFC;
+    @include for-size(phone-only) {
+      width: calc(100vw - 80px);
+    }
   }
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+    &.outline {
+        position: relative;
+        z-index: 3;
+        background: transparent;
+        color: #1172c4;
+        font-size: 14px;
+        border-color: #1172c4;
+        border-style: solid;
+        border-width: 2px;
+        border-radius: 22px;
+        padding: 10px 40px;
+        text-transform: uppercase;
+        transition: all 0.2s linear;
+        a {
+            text-decoration: none;
+        }
+    }
+    &.outline:hover {
+        color: white;
+        background: #1172c4;
+        border-color: white;
+        transition: all 0.2s linear;
+    }
+    &.outline:active {
+        border-radius: 22px;
+    }
+    &.white-green {
+        font-weight: 700;
+        color: #FF9F1C;
+        border-color: white;
+        background: white;
+    }
+    &.white-green:hover {
+        color: white;
+        background: #FF9F1C;
+        border-color: white;
+    }
+
+    &.white-grey {
+        font-weight: 700;
+        color: #D8D8D8;
+        border-color: white;
+        background: white;
+    }
+    &.white-grey:hover {
+        cursor: no-drop;
+        color: white;
+        background: #D8D8D8;
+        border-color: white;
+    }
 }

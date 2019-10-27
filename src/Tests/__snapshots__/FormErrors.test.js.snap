@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="form-input__error-message"
+>
+  <p
+    className="form-input__error-message__individual"
+  >
+    payee
+     
+    mockpayee error
+  </p>
+  <p
+    className="form-input__error-message__individual"
+  >
+    amount
+     
+    mockamount error
+  </p>
+  <p
+    className="form-input__error-message__individual"
+  >
+    date
+     
+    mockdate error
+  </p>
+</div>
+`;

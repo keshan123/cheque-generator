@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="details-container"
+>
+  <label
+    className="form-input__label"
+  >
+    Payee
+  </label>
+  <input
+    className="form-input "
+    name="payee"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <label
+    className="form-input__label"
+  >
+    Amount in $
+  </label>
+  <input
+    className="form-input "
+    name="amount"
+    onChange={[Function]}
+    type="number"
+    value=""
+  />
+  <label
+    className="form-input__label"
+  >
+    Date
+  </label>
+  <input
+    className="form-input "
+    name="date"
+    onChange={[Function]}
+    type="date"
+    value=""
+  />
+  <div>
+    <div
+      className="form-input__error-message"
+    >
+      
+      
+      
+    </div>
+  </div>
+  <button
+    className="form-input__submit-button outline white-grey"
+    disabled={true}
+    onClick={[Function]}
+    type="submit"
+  >
+    Submit
+  </button>
+</div>
+`;

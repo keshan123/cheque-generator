@@ -1,16 +1,28 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
-const FormErrors = ({formErrors}) =>
-  <div className='formErrors'>
-    {Object.keys(formErrors).map((fieldName, i) => {
-      if(formErrors[fieldName].length > 0){
+const FormErrors = ({ formErrors }) => (
+  <div className="form-input__error-message">
+    {Object.keys(formErrors).map((fieldName, index) => {
+      if (formErrors[fieldName].length > 0) {
         return (
-          <p key={i}>{fieldName} {formErrors[fieldName]}</p>
-        )
+          <p className="form-input__error-message__individual" key={index}>
+            {fieldName} {formErrors[fieldName]}
+          </p>
+        );
       } else {
-        return '';
+        return "";
       }
     })}
   </div>
+);
 
-export default FormErrors
+FormErrors.propTypes = {
+  formErrors: PropTypes.shape({
+    payee: PropTypes.string,
+    amount: PropTypes.string,
+    date: PropTypes.string
+  })
+};
+
+export default FormErrors;
