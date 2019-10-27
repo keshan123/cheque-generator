@@ -9,7 +9,9 @@ const Cheque = props => (
         DATE:
         <div className="cheque__date">
           {props.date.map((number, index) => (
-            <div className="cheque__date-individual" key={index}>{number}</div>
+            <div className="cheque__date-individual" key={index}>
+              {number}
+            </div>
           ))}
         </div>
       </div>
@@ -30,15 +32,15 @@ const Cheque = props => (
   </div>
 );
 
-const centsDisplay = (value) => {
-  const centsDividable =  value.includes('.')
+const centsDisplay = value => {
+  const centsDividable = value.includes(".");
   if (centsDividable) {
-    const centsSplit =  value.split('.')
-    return `${centsSplit[1]} /100`
+    const centsSplit = value.split(".");
+    return `${centsSplit[1]} /100`;
   } else {
     return false;
   }
-}
+};
 
 Cheque.propTypes = {
   payee: PropTypes.string,
