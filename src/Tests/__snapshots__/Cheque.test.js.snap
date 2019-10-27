@@ -12,13 +12,24 @@ exports[`renders correctly 1`] = `
     >
       mockpayee
     </div>
-    <div>
-      DATE: 
-      <span
+    <div
+      className="cheque__date-container"
+    >
+      DATE:
+      <div
         className="cheque__date"
       >
-        2020-10-10
-      </span>
+        <div
+          className="cheque__date-individual"
+        >
+          1
+        </div>
+        <div
+          className="cheque__date-individual"
+        >
+          2
+        </div>
+      </div>
     </div>
   </div>
   <div
@@ -29,7 +40,140 @@ exports[`renders correctly 1`] = `
     >
       one hundred dollars
     </div>
-    <div>
+    <div
+      className="cheque__amount"
+    >
+      $ 100
+    </div>
+  </div>
+  <div
+    className="cheque__barcode-and-signature"
+  >
+    <div
+      className="cheque__bottom-numbers"
+    >
+      1234:-5678:--..9010::123..-123-522-42
+    </div>
+    <div
+      className="cheque__signature"
+    >
+      Keshan Peiris
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders correctly with cents 1`] = `
+<div
+  className="cheque"
+>
+  <div
+    className="cheque__payee-and-date-container"
+  >
+    <div
+      className="cheque__payee"
+    >
+      mockpayee
+    </div>
+    <div
+      className="cheque__date-container"
+    >
+      DATE:
+      <div
+        className="cheque__date"
+      >
+        <div
+          className="cheque__date-individual"
+        >
+          1
+        </div>
+        <div
+          className="cheque__date-individual"
+        >
+          2
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="cheque__text-and-amount-container"
+  >
+    <div
+      className="cheque__value-text"
+    >
+      one hundred dollars
+    </div>
+    <div
+      className="cheque__value-cents"
+    >
+      20 /100
+    </div>
+    <div
+      className="cheque__amount"
+    >
+      $ 100.20
+    </div>
+  </div>
+  <div
+    className="cheque__barcode-and-signature"
+  >
+    <div
+      className="cheque__bottom-numbers"
+    >
+      1234:-5678:--..9010::123..-123-522-42
+    </div>
+    <div
+      className="cheque__signature"
+    >
+      Keshan Peiris
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders correctly without cents 1`] = `
+<div
+  className="cheque"
+>
+  <div
+    className="cheque__payee-and-date-container"
+  >
+    <div
+      className="cheque__payee"
+    >
+      mockpayee
+    </div>
+    <div
+      className="cheque__date-container"
+    >
+      DATE:
+      <div
+        className="cheque__date"
+      >
+        <div
+          className="cheque__date-individual"
+        >
+          1
+        </div>
+        <div
+          className="cheque__date-individual"
+        >
+          2
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="cheque__text-and-amount-container"
+  >
+    <div
+      className="cheque__value-text"
+    >
+      one hundred dollars
+    </div>
+    <div
+      className="cheque__amount"
+    >
       $ 100
     </div>
   </div>

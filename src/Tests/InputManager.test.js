@@ -62,7 +62,7 @@ describe("<InputManager />", () => {
 
       expect(inputManager.setState.mock.calls.length).toBe(1);
       expect(inputManager.setState.mock.calls[0][0].formErrors.amount).toBe(
-        " must be greater than $ 0"
+        " invalid - (must be greater than $0 and contain no special characters)"
       );
       expect(inputManager.setState.mock.calls[0][0].amountValid).toBe(false);
     });
@@ -90,24 +90,45 @@ describe("<InputManager />", () => {
       expect(inputManager.setState.mock.calls[0][0].amountValid).toBe(true);
     });
 
-    it("should set dateValid to false when a date value given is empty (invalid)", () => {
+    it("should set dateValid to false when a date value given has a letter (invalid)", () => {
+      inputManager.setState = jest.fn();
+      inputManager.validateField("date", 'a');
+
+      expect(inputManager.setState.mock.calls.length).toBe(1);
+      expect(inputManager.setState.mock.calls[0][0].formErrors.date).toBe(
+        " invalid format"
+      );
+      expect(inputManager.setState.mock.calls[0][0].dateValid).toBe(false);
+    });
+
+    it("should set dateValid to false when a no date value given", () => {
       inputManager.setState = jest.fn();
       inputManager.validateField("date");
 
       expect(inputManager.setState.mock.calls.length).toBe(1);
       expect(inputManager.setState.mock.calls[0][0].formErrors.date).toBe(
-        " invalid date"
+        " cannot be empty"
       );
       expect(inputManager.setState.mock.calls[0][0].dateValid).toBe(false);
     });
 
-    it("should set dateValid to true when a date value given valid", () => {
+    it("should set dateValid to false when date is invalid", () => {
       inputManager.setState = jest.fn();
-      inputManager.validateField("date", "2020-10-10");
+      inputManager.validateField("date", "99/99/9999");
 
       expect(inputManager.setState.mock.calls.length).toBe(1);
-      expect(inputManager.setState.mock.calls[0][0].formErrors.date).toBe("");
-      expect(inputManager.setState.mock.calls[0][0].dateValid).toBe(true);
+      expect(inputManager.setState.mock.calls[0][0].formErrors.date).toBe(
+        " not valid"
+      );
+      expect(inputManager.setState.mock.calls[0][0].dateValid).toBe(false);
+    });
+
+    it("should set dateValid to true when date is valid", () => {
+      inputManager.setState = jest.fn();
+      inputManager.validateField("date", "03/10/1995");
+
+      expect(inputManager.setState.mock.calls.length).toBe(2);
+      expect(inputManager.setState.mock.calls[1][0].dateValid).toBe(true);
     });
   });
 

@@ -1,6 +1,7 @@
 import React from "react";
 import FormErrors from "./FormErrors";
 import Cheque from "./Cheque";
+import moment from 'moment';
 
 class InputManager extends React.Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class InputManager extends React.Component {
       formValid: false,
       error: "",
       isLoaded: false,
-      valueInString: ""
+      valueInString: "",
+      reformattedDate: [],
+      buttonText: "Submit",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -30,6 +33,7 @@ class InputManager extends React.Component {
   }
 
   async handleSubmit() {
+    this.setState({ buttonText: 'Loading'})
     await fetch(
       `https://te5299oebg.execute-api.us-west-2.amazonaws.com/prod/${this.state.amount}`
     )
@@ -64,7 +68,7 @@ class InputManager extends React.Component {
             amountValid = false;
             fieldValidationErrors.amount = amountValid
               ? ""
-              : " must be greater than $ 0";
+              : " invalid - (must be greater than $0 and contain no special characters)";
           }
         } else if (value > 10000000000000) {
           amountValid = false;
@@ -80,10 +84,25 @@ class InputManager extends React.Component {
       case "date":
         if (!value) {
           dateValid = false;
-          fieldValidationErrors.date = dateValid ? "" : " invalid date";
+          fieldValidationErrors.date = dateValid ? "" : " cannot be empty";
         } else {
-          dateValid = true;
-          fieldValidationErrors.date = "";
+          if (/[a-zA-Z]/.test(value)) {
+            dateValid = false;
+            fieldValidationErrors.date = dateValid ? "" : " invalid format";
+          } else {
+            const momentDate = moment(value, 'DD/MM/YYYY', true)
+            let reformatDate = momentDate.format('YYYYMMDD');
+            const validatedMoment = momentDate.isValid();
+            if (!validatedMoment) {
+              dateValid = false;
+              fieldValidationErrors.date = dateValid ? "" : " not valid";
+            } else {
+                const splitDate = reformatDate.split('');
+                this.setState({ reformattedDate: splitDate})
+                dateValid = true;
+                fieldValidationErrors.date = "";
+            }
+          }
         }
         break;
       default:
@@ -135,8 +154,8 @@ class InputManager extends React.Component {
             <input
               className={`form-input ${this.state.formErrors.date &&
                 "invalid"}`}
-              type="date"
               value={this.state.date}
+              placeholder="DD/MM/YYYY"
               onChange={event => this.handleUserInput(event)}
               name="date"
             ></input>
@@ -151,7 +170,7 @@ class InputManager extends React.Component {
                 this.state.formValid ? "white-green" : "white-grey"
               }`}
             >
-              Submit
+              {this.state.buttonText}
             </button>
           </div>
         ) : (
@@ -159,7 +178,7 @@ class InputManager extends React.Component {
             payee={this.state.payee}
             amount={this.state.amount}
             valueInString={this.state.valueInString}
-            date={this.state.date}
+            date={this.state.reformattedDate}
           />
         )}
       </>

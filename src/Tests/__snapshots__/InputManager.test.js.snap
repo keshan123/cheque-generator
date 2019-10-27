@@ -37,7 +37,7 @@ exports[`renders correctly 1`] = `
     className="form-input "
     name="date"
     onChange={[Function]}
-    type="date"
+    placeholder="DD/MM/YYYY"
     value=""
   />
   <div>
